@@ -1,0 +1,11 @@
+CREATE OR REPLACE PROCEDURE ProcessMonthlyInterest IS
+BEGIN FOR accounts IN (SELECT AccountID, Balance FROM Accounts WHERE AccountType = 'Savings') LOOP UPDATE Accounts SET Balance = Balance + (accounts.Balance * 0.01),
+LastModified = SYSDATE WHERE AccountID = accounts.AccountID;
+END LOOP;
+COMMIT;
+END;
+BEGIN
+    ProcessMonthlyInterest;
+END;
+
+select * from Accounts;
